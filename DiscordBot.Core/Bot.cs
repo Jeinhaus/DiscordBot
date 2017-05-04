@@ -53,23 +53,19 @@ namespace DiscordBot.Core
 
         public async Task HandleCommand(SocketMessage messageParam)
         {
-            // Don't process the command if it was a System Message
             var message = messageParam as SocketUserMessage;
             if (message == null) return;
             int argPos = 0;
             if (!(message.HasCharPrefix('!', ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos)))
                 return;
 
-            // Create a Command Context
             var context = new CommandContext(_client, message);
-            // Execute the command. (result does not indicate a return value, 
-            // rather an object stating if the command executed succesfully)
+            
             var result = await _commands.ExecuteAsync(context, argPos, _map);
             if (!result.IsSuccess)
                 await context.Channel.SendMessageAsync(result.ErrorReason);
         }
-        // Create a named logging handler, so it can be re-used by addons
-        // that ask for a Func<LogMessage, Task>.
+
         private Task Logger(LogMessage message)
         {
             string msg = "{severity}, {message}, {source}";
@@ -96,6 +92,5 @@ namespace DiscordBot.Core
 
             return Task.CompletedTask;
         }
-
     }
 }
