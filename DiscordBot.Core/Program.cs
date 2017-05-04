@@ -17,12 +17,9 @@ namespace DiscordBot.Core
         public static void Main(string[] args)
         {
             IServiceCollection serviceCollection = new ServiceCollection();
-
             ConfigureServices(serviceCollection);
 
-            // Application application = new Application(serviceCollection);
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-
             var bot = serviceProvider.GetService<Bot>();
 
             bot.Run().GetAwaiter().GetResult();
@@ -39,10 +36,8 @@ namespace DiscordBot.Core
 
             IConfigurationRoot configuration = GetConfiguration();
             services.AddSingleton<IConfigurationRoot>(configuration);
-            services.AddOptions();
-            //services.Configure<MyOptions>(configuration.GetSection("MyOptions"));
-            string token = Environment.GetEnvironmentVariable("DISCORD_BOTTOKEN");
-            services.AddSingleton(provider => new Bot(token, loggerFactory.CreateLogger("bot")));
+            services.AddOptions();     
+            services.AddSingleton(provider => new Bot(configuration["DISCORD_BOTTOKEN"], loggerFactory.CreateLogger("bot")));
         }
 
         private static IConfigurationRoot GetConfiguration()
