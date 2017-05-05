@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  discordbot.core:
+    image: discordbot.core
+    build:
+      context: ./DiscordBot.Core
+      dockerfile: Dockerfile

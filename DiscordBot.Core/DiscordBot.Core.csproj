@@ -18,4 +18,10 @@
     <PackageReference Include="Octokit" Version="0.24.1-alpha0001" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update=".dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
+  </ItemGroup>
+
 </Project>

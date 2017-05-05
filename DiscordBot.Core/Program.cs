@@ -36,7 +36,7 @@ namespace DiscordBot.Core
 
             IConfigurationRoot configuration = GetConfiguration();
             services.AddSingleton<IConfigurationRoot>(configuration);
-            services.AddOptions();     
+            services.AddOptions();
             services.AddSingleton(provider => new Bot(configuration["DISCORD_BOTTOKEN"], loggerFactory.CreateLogger("bot")));
         }
 
