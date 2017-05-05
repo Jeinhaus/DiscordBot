@@ -13,16 +13,26 @@ namespace DiscordBot.Core
 {
     class Program
     {
-
+        private static ILogger _logger;
         public static void Main(string[] args)
         {
             IServiceCollection serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
 
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
+            _logger =  serviceProvider.GetService<ILoggerFactory>().CreateLogger("program");
+
             var bot = serviceProvider.GetService<Bot>();
 
-            bot.Run().GetAwaiter().GetResult();
+            try
+            {
+                bot.Run().GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical("Failed to Run() the bot...", ex);
+                throw;
+            }
         }
 
         private static void ConfigureServices(IServiceCollection services)
