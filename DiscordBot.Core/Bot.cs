@@ -56,11 +56,11 @@ namespace DiscordBot.Core
             var message = messageParam as SocketUserMessage;
             if (message == null) return;
             int argPos = 0;
+            await message.AddReactionAsync("💩");
             if (!(message.HasCharPrefix('!', ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos)))
                 return;
 
             var context = new CommandContext(_client, message);
-            
             var result = await _commands.ExecuteAsync(context, argPos, _map);
             if (!result.IsSuccess)
                 await context.Channel.SendMessageAsync(result.ErrorReason);

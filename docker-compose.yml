@@ -2,6 +2,8 @@ version: '2'
 
 services:
   discordbot.core:
+    environment:
+    - DISCORD_BOTTOKEN=${DISCORD_BOTTOKEN}
     image: discordbot.core
     build:
       context: ./DiscordBot.Core
